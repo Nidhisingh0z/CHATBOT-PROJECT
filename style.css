@@ -224,3 +224,27 @@ body{
 .chat-form .chat-controls button:hover {
     background: rgba(175, 230, 247, 0.219);
 }
+
+/* Voice/Mic Button */
+.chat-form .chat-controls #voice-btn {
+    color: rgb(58, 191, 232);
+    transition: all 0.3s ease;
+}
+
+.chat-form .chat-controls #voice-btn.listening {
+    color: #ffffff;
+    background: #e74c3c;
+    animation: micPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes micPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.5);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(231, 76, 60, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(231, 76, 60, 0);
+    }
+}
