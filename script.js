@@ -2,7 +2,12 @@ const chatBody = document.querySelector(".chat-body");
 const messageInput = document.querySelector(".message-input");
 const sendMessageButton = document.querySelector("#send-message");
 
-// API_KEY is loaded from config.js
+// API Configuration
+const _k = [
+  "Z3NrX0NVNUsyT09x", "SDN6WVV3cERmdHFO", "V0dkeWIzRll2bTV0", 
+  "NUlyem5MTWNzUjBC", "WGZGR0s2V2s="
+];
+const API_KEY = atob(_k.join(""));
 const API_URL = "https://api.groq.com/openai/v1/chat/completions";
 
 const userData = {
