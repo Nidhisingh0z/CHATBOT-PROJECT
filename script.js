@@ -2,8 +2,8 @@ const chatBody = document.querySelector(".chat-body");
 const messageInput = document.querySelector(".message-input");
 const sendMessageButton = document.querySelector("#send-message");
 
-const API_KEY ="AIzaSyDOauVs03t_p1pGY0n0lpxLOeQ201IN0fc";
-const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
+// API_KEY is loaded from config.js
+const API_URL = "https://api.groq.com/openai/v1/chat/completions";
 
 const userData = {
   message: null
@@ -20,11 +20,16 @@ const generateBotResponse = async (incomingMessageDiv) => {
 
  const requestOptions = {
   method : "POST",
-  headers : {"Content-Type" : "application/json"},
+  headers : {
+    "Content-Type" : "application/json",
+    "Authorization" : `Bearer ${API_KEY}`
+  },
   body: JSON.stringify({
-    contents : [{
-      parts: [{text: userData.message}]
-    }] 
+    model: "llama-3.3-70b-versatile",
+    messages: [{
+      role: "user",
+      content: userData.message
+    }]
   })
   
  }
@@ -34,10 +39,12 @@ const generateBotResponse = async (incomingMessageDiv) => {
   const data = await response.json();
   if(!response.ok) throw new Error(data.error.message);
 
-   const apiResponseText = data.candidates[0].content.parts[0].text.replace(/\*\*(.*?)\*\*/g,"$1").trim();
+   const apiResponseText = data.choices[0].message.content.replace(/\*\*(.*?)\*\*/g,"$1").trim();
    messageElement.innerText = apiResponseText;
  } catch(error) {
    console.log(error);
+   messageElement.innerText = "Sorry, something went wrong. Please try again.";
+   messageElement.style.color = "#e74c3c";
  } finally {
   incomingMessageDiv.classList.remove("thinking");
   chatBody.scrollTo({top:chatBody.scrollHeight, behavior: "smooth"});
